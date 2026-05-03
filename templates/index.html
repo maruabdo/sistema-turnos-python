@@ -1,29 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
     <title>Sistema de Turnos</title>
+
+    <!-- Conexión al CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-<h1>Turnos</h1>
+    <h1>📅 Sistema de Turnos</h1>
 
-<form action="/agregar" method="post">
-    <input type="text" name="cliente" placeholder="Cliente" required>
-    <input type="date" name="fecha" required>
-    <input type="time" name="hora" required>
-    <button type="submit">Agregar</button>
-</form>
+    <!-- Formulario -->
+    <form action="/agregar" method="post">
+        <input type="text" name="cliente" placeholder="Nombre del cliente" required>
+        <input type="date" name="fecha" required>
+        <input type="time" name="hora" required>
+        <button type="submit">Agregar turno</button>
+    </form>
 
-<h2>Lista de turnos</h2>
+    <h2>Turnos agendados</h2>
 
-<ul>
-    {% for t in turnos %}
-        <li>
-            {{ t.fecha }} {{ t.hora }} - {{ t.cliente }}
-            <a href="/eliminar/{{ loop.index0 }}">Eliminar</a>
-        </li>
-    {% endfor %}
-</ul>
+    {% if turnos %}
+        <ul>
+            {% for t in turnos %}
+                <li>
+                    {{ t[2] }} {{ t[3] }} - {{ t[1] }}
+                    <a href="/eliminar/{{ t[0] }}">❌</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay turnos cargados.</p>
+    {% endif %}
 
 </body>
 </html>
